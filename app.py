@@ -350,9 +350,10 @@ with tab_sample:
     рассчитает статистику и поможет сгенерировать схожий синтетический датасет.
     """)
 
-    uploaded_file = st.file_uploader("Загрузите CSV файл", type=["csv"])
+    uploaded_file = st.file_uploader("Загрузите CSV или parquet файл", type=["csv", "parquet"])
     if uploaded_file is not None:
-        df_input = pd.read_csv(uploaded_file)
+        print('is parquet' if 'parquet' in uploaded_file.name else 'not parquet')
+        df_input = pd.read_parquet(uploaded_file) if 'parquet' in uploaded_file.name else pd.read_csv(uploaded_file) 
         st.subheader("Анализ загруженного датасета:")
         st.write(df_input.head())
         
